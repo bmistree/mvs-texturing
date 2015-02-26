@@ -24,6 +24,7 @@ externalproject_add(coldet
     URL_MD5         37646a7dd046d9c81fca9d55346a108a
     UPDATE_COMMAND  ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_LIST_DIR}/CMakeLists/coldet.txt CMakeLists.txt
     SOURCE_DIR      ${CMAKE_CURRENT_LIST_DIR}/external/coldet
+    DOWNLOAD_DIR    ${CMAKE_CURRENT_LIST_DIR}/external/coldet
     INSTALL_COMMAND ""
 )
 
@@ -42,6 +43,7 @@ externalproject_add(mve
     PREFIX          mve
     GIT_REPOSITORY  https://github.com/simonfuhrmann/mve.git
     SOURCE_DIR      ${CMAKE_CURRENT_LIST_DIR}/external/mve
+    DOWNLOAD_DIR    ${CMAKE_CURRENT_LIST_DIR}/external/mve
     CONFIGURE_COMMAND ""
     BUILD_COMMAND   make #not platform independent
     BUILD_IN_SOURCE 1
@@ -115,7 +117,7 @@ add_library(mvs_lib
   ${CMAKE_CURRENT_LIST_DIR}/UniGraph.cpp)
 
 
-add_dependencies(${mvs_lib} coldet eigen mve)
+#add_dependencies(${mvs_lib} coldet eigen mve)
 if(RESEARCH)
   add_dependencies(${mvs_lib} coldet eigen mve gco)
 else(RESEARCH)
