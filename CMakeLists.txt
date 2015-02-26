@@ -88,50 +88,45 @@ if(RESEARCH)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRESEARCH=1")
 endif()
 
-set(SRCS
-    Arguments.cpp
-    build_adjacency_graph.cpp
-    build_mrf.cpp
-    build_obj_model.cpp
-    generate_debug_colors.cpp
-    generate_debug_embeddings.cpp
-    generate_texture_patches.cpp
-    generate_texture_views.cpp
-    Histogram.cpp
-    load_and_prepare_mesh.cpp
-    main.cpp
-    Material.cpp
-    MaterialLib.cpp
-    MRF.cpp
-    ObjModel.cpp
-    partition_mesh.cpp
-    poisson_blending.cpp
-    RectangularBin.cpp
-    run_mrf_optimization.cpp
-    run_seam_leveling.cpp
-    TexturePatch.cpp
-    TextureView.cpp
-    Timer.cpp
-    Tri.cpp
-    UniGraph.cpp
-)
+add_library(mvs_lib
+  Arguments.cpp
+  build_adjacency_graph.cpp
+  build_mrf.cpp
+  build_obj_model.cpp
+  generate_debug_colors.cpp
+  generate_debug_embeddings.cpp
+  generate_texture_patches.cpp
+  generate_texture_views.cpp
+  Histogram.cpp
+  load_and_prepare_mesh.cpp
+  Material.cpp
+  MaterialLib.cpp
+  MRF.cpp
+  ObjModel.cpp
+  partition_mesh.cpp
+  poisson_blending.cpp
+  RectangularBin.cpp
+  run_mrf_optimization.cpp
+  run_seam_leveling.cpp
+  TexturePatch.cpp
+  TextureView.cpp
+  Timer.cpp
+  Tri.cpp
+  UniGraph.cpp)
 
-set(BIN texrecon)
 
-add_executable(${BIN} ${SRCS})
-add_dependencies(${BIN} coldet eigen mve)
-
+add_dependencies(${mvs_lib} coldet eigen mve)
 if(RESEARCH)
-    add_dependencies(${BIN} gco)
+  add_dependencies(${mvs_lib} coldet eigen mve gco)
+else(RESEARCH)
+  add_dependencies(${mvs_lib} coldet eigen mve )
 endif()
 
 find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(TIFF REQUIRED)
 
-target_link_libraries(${BIN} -lcoldet -lmve -lmve_util ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${TIFF_LIBRARIES})
 if(RESEARCH)
-    target_link_libraries(${BIN} -lgco)
     message(
 "
 ******************************************************************************
